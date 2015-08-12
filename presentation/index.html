@@ -6,8 +6,8 @@
 
     <title>Building a Binary Protocol Client in Ruby</title>
 
-    <meta name="description" content="A framework for easily creating beautiful presentations using HTML">
-    <meta name="author" content="Hakim El Hattab">
+    <meta name="description" content="A talk delivered to Lonestar Ruby Conference 2015 in Austin, Texas">
+    <meta name="author" content="@trevrosen, @egyp7">
 
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -45,6 +45,7 @@ document.getElementsByTagName( 'head' )[0].appendChild( link );
           <p>@trevrosen and @egypt</p>
         </section>
 
+        <!--BEGIN tech/protocol explanation slides-->
         <section>
           <section>
             <h2>First things First</h2>
@@ -127,10 +128,99 @@ document.getElementsByTagName( 'head' )[0].appendChild( link );
 
             <aside class="notes">
               Each piece of the data that is expected in the protocol is enumerated in this spec
+              Remember our packet? We create a structured piece of binary data (a binary string)
+            </aside>
+          </section>
+
+          <section>
+            <p>How do we make one?</p>
+            <p>We need more control over the bits than Ruby classes give us.</p>
+            <aside class="notes">
+              Now we need to make sure that we can place binary information on the wire.
+              We need to be structuring literal bits in memory. We need C structs.
+            </aside>
+          </section>
+
+          <section>
+            <h2>C Structs</h2>
+          </section>
+
+          <section>
+            <h3>The OG Structured Data Type</h3>
+            <img src="images/gangsta.gif" class="fragment" alt="" />
+          </section>
+
+          <section>
+            <p>A Real Struct for a Fake Packet</p>
+            <pre>
+              <code data-trim>
+typedef struct FakePacket {
+  int id;
+  int sequence_number;
+}FakePacket;
+              </code>
+            </pre>
+            <aside>
+              Obviously this is no real packet. But it's a real C struct.
+            </aside>
+          </section>
+
+          <section>
+            <p>Here's some code that uses one:</p>
+            <pre>
+              <code data-trim>
+#include &lt;stdio.h&gt;
+
+typedef struct FakePacket {
+  int id;
+  int sequence_number;
+}FakePacket;
+
+int main(int argc, const char *argv[])
+{
+  struct FakePacket foo;
+  foo = (FakePacket) { .id = 1, .sequence_number = 80};
+
+  printf("Sequence number: %d", foo.sequence_number);
+  return 0;
+}
+              </code>
+            </pre>
+            <aside class="notes">
+              We're creating an instance of our struct and setting up the values of its components,
+              just like we would with a Ruby object (or Struct!)
+            </aside>
+          </section>
+
+          <section>
+            <p>Wikipedia:</p>
+            <blockquote>
+              A struct in the C programming language (and many derivatives) is a complex data type declaration that <span class="fragment highlight-blue">defines a physically grouped list of variables to be placed under one name in a block of memory</span>, allowing the different variables to be accessed via a single pointer, or the struct declared name which returns the same address.
+            </blockquote>
+            <aside class="notes">
+              Physically. Adjacent. In memory. Think about that - that means ones and zeroes. Physically adjacent. Keep this concept in your head.
+            </aside>
+          </section>
+
+          <section>
+            <p>A packet is just a struct!</p>
+            <aside>
+             So if we know that a packet is just a struct, then it should be easy to follow a protocol spec and put them out on the wire.
+             All we need to do now is make structs in Ruby.
+            </aside>
+          </section>
+
+          <section>
+            <h2>BinData</h2>
+            <p>A library for building C structs in Ruby so that you can deal with binary data in a Ruby-ish way</p>
+            <aside>
+              You need to be able to use all the lovely things about Ruby (classes, DSLs, etc) to make C-style structs.
+              This means packing regular Ruby strings as binary
             </aside>
           </section>
 
         </section>
+        <!--END tech/protocol explanation slides-->
 
 
 
