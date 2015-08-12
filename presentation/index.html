@@ -243,12 +243,127 @@ r  = Rectangle.read(io)
 puts "Rectangle #{r.name} is #{r.width} x #{r.height}"
             </code>
             </pre>
+            <aside class="notes">
+              OK so now we know that we can write (and read!) C structs with a handy DSL
+              It makes strings of binary data that can easily be reasoned about.
+            </aside>
+          </section>
+
+          <section>
+            <p>So let's recap the tools/knowledge we have:</p>
+            <ul>
+              <li>We know how packets are structured</li>
+              <li>We know how a binary protocol spec is organized (from APN)</li>
+              <li>We have a way to produce binary structures for the wire</li>
+            </ul>
+            <aside>
+              So now we have the tools that we need to start thinking about putting together our client
+            </aside>
           </section>
 
         </section>
         <!--END tech/protocol explanation slides-->
 
+        <section>
+          <h2>SMB</h2>
+        </section>
 
+        <!--BEGIN Metasploit digression on pivots-->
+        <section>
+          <section>
+            <p>Well, first a digression</p>
+          </section>
+
+          <section>
+            <h2>Metasploit</h2>
+            <ul>
+              <li>Penetration testing/exploit development framework</li>
+              <li>Open source</li>
+              <li>Audacious as hell</li>
+              <li>Used by (good|bad) folks worldwide</li>
+              <li>Written in Ruby</li>
+            </ul>
+            <aside class="notes">
+              We do lots of things with networks, and our problems probably aren't your problems
+            </aside>
+          </section>
+
+          <section>
+            <h3>Pentesting: How far can you get?</h3>
+            <ul>
+              <li>Compromise a machine and see where you can go from there</li>
+              <li>Frequently, networked machines will have access to several network segments</li>
+              <li>So compromising a machine will make more machines visible</li>
+              <li>Then you can compromise machine B because you can see it from machine A</li>
+            </ul>
+          </section>
+
+          <section>
+            <p>This is called a "pivot"</p>
+          </section>
+
+          <section>
+            <p>Here's a simplification of what a "pivot" looks like</p>
+            <img src="images/pivot-diagram.png" alt="" />
+          </section>
+
+          <section>
+            <p>Ok, but why do we care?</p>
+            <aside class="notes">
+              This is a talk about clients, right? Not hacker stuff!
+              Well we need to know what hosts are routeable in order to do a pivot
+            </aside>
+          </section>
+
+          <section>
+            <h3>Metasploit network clients must handle socket creation themselves</h3>
+            <ul>
+              <li>This is why we make lots of protocol clients</li>
+              <li>We have to instantiate the socket in the context of the routes made available by pivots, at runtime</li>
+            </ul>
+
+            <aside class="notes">
+              Most protocols handle socket creation for you.
+            </aside>
+          </section>
+
+          <section>
+            [[ END OF DIGRESSION ]]
+          </section>
+        </section>
+        <!--END Metasploit digression on pivots-->
+
+        <section>
+          OK back to SMB
+        </section>
+
+        <section>
+          <h3>SMB (Server Message Block)</h3>
+          <ul>
+            <li>THE protocol for Window networking</li>
+            <li>File shares, printers, desktops, etc talk to each other this way</li>
+            <li>Open source (reverse-engineered) is SAMBA</li>
+            <li>Attacking Windows is very important to Metasploit</li>
+          </ul>
+
+          <aside class="notes">
+            Newer versions of Windows don't support older versions of SMB, and those old versions are all the client
+            we have in Metasploit currently. That's why we're writing a new client.
+          </aside>
+        </section>
+
+        <section>
+          <h4>RubySMB</h4>
+          <img src="images/ruby_smb.png" alt="" />
+        </section>
+
+        <section>
+          <ul>
+            <li>A new, pure Ruby implementation of SMB</li>
+            <li>Written to be socket-agnostic</li>
+            <li>Covering both SMBv1 and SMBv2</li>
+          </ul>
+        </section>
 
 
 
