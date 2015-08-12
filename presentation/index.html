@@ -65,7 +65,7 @@ document.getElementsByTagName( 'head' )[0].appendChild( link );
           <section>
             <h3>There are two basic kinds:</h3>
             <ul>
-              <li>Test-based (e.g. HTTP, SMTP, IRC)</li>
+              <li>Text-based (e.g. HTTP, SMTP, IRC)</li>
               <li>Binary (e.g. APN, SMB)</li>
             </ul>
           </section>
@@ -83,17 +83,64 @@ document.getElementsByTagName( 'head' )[0].appendChild( link );
           </section>
 
           <section>
-            [TK EXAMPLE OF HTTP TRAFFIC]
+            <p>We've probably all looked at some HTTP traffic:</p>
+            <img src="images/lonestar-http.png" alt="" />
           </section>
 
           <section>
-            [TK EXAMPLE OF BINARY TRAFFIC]
+            <p>Here's some captured SMB traffic. The stuff on the right is the binary data:</p>
+            <pre>
+              <code data-trim>
+0x0000:  a493 4ce6 0d40 0005 1ba4 07cb 0800 4500  ..L..@........E.
+0x0010:  005b e0e9 4000 4006 0000 0a06 0068 0a14  .[..@.@......h..
+0x0020:  2436 ec71 01bd e79c 5824 b85e 7c1d 8018  $6.q....X$.^|...
+0x0030:  1000 3905 0000 0101 080a 2961 e7f7 001f  ..9.......)a....
+0x0040:  d761 0000 0023 ff53 4d42 7100 0000 0008  .a...#.SMBq.....
+0x0050:  0048 0000 0000 0000 0000 0000 0000 0508  .H..............
+0x0060:  c115 0010 0000 0000 00                   .........
+              </code>
+            </pre>
           </section>
 
           <section>
             <img src="images/Wut.jpg" alt="" />
             <aside class="notes">
-              Clearly it's hard to make sense of a binary protocol just by looking at it. Let's try some documentation.
+              Clearly it's hard to make sense of a binary protocol just by looking at it raw - it's not text!
+            </aside>
+          </section>
+
+          <section>
+            <h3>Wireshark to the Rescue!</h3>
+          </section>
+
+          <section>
+            <img src="images/wireshark/smb-connect.png" alt="" />
+            <aside class="notes">
+             Wireshark is THE way to analyze packet traffic. Supports hundreds of protocols.
+             Here you can see the binary of the packet on the bottom and what it means on the top.
+            </aside>
+          </section>
+
+          <section>
+            <img src="images/wireshark/lonestar-http.png" alt="" />
+            <aside class="notes">
+             You can of course also anaylze text-based protocols with it too.
+             Here's the Lonestar page we looked at earlier w/ Chrome.
+            </aside>
+          </section>
+
+          <section>
+            <img src="images/wireshark/smb-connect.png" alt="" />
+            <aside class="notes">
+              So back to our traffic here. This is SMB, which we'll talk more about in a minute. Wireshark understands what the chunks of binary data mean
+              and is able to create this interface for you so that you can make sense of the data in relation to a protocol spec.
+            </aside>
+          </section>
+
+          <section>
+            <p>Let's take a quick look at a spec for an easy binary protocol (i.e. NOT SMB)</p>
+            <aside class="notes">
+              We thought it would be useful to show what a super-simple spec looks like for a protocol that many people in the room are probably already familiar with.
             </aside>
           </section>
 
@@ -119,6 +166,7 @@ document.getElementsByTagName( 'head' )[0].appendChild( link );
 
             <aside class="notes">
               Ok so what does that mean though? How does that diagram relate to what the machine needs?
+              Think of a packet as like a tightly packed suitcase. The suitcase needs the right things, of the right size, in the right places.
             </aside>
           </section>
 
@@ -133,7 +181,7 @@ document.getElementsByTagName( 'head' )[0].appendChild( link );
           </section>
 
           <section>
-            <p>How do we make one?</p>
+            <p>How do we make one in Ruby?</p>
             <p>We need more control over the bits than Ruby classes give us.</p>
             <aside class="notes">
               Now we need to make sure that we can place binary information on the wire.
