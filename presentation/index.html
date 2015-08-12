@@ -204,7 +204,7 @@ int main(int argc, const char *argv[])
 
           <section>
             <p>A packet is just a struct!</p>
-            <aside>
+            <aside class="notes">
              So if we know that a packet is just a struct, then it should be easy to follow a protocol spec and put them out on the wire.
              All we need to do now is make structs in Ruby.
             </aside>
@@ -213,7 +213,7 @@ int main(int argc, const char *argv[])
           <section>
             <h2>BinData</h2>
             <p>A library for building C structs in Ruby so that you can deal with binary data in a Ruby-ish way</p>
-            <aside>
+            <aside class="notes">
               You need to be able to use all the lovely things about Ruby (classes, DSLs, etc) to make C-style structs.
               This means packing regular Ruby strings as binary
             </aside>
