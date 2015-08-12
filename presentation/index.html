@@ -205,8 +205,8 @@ int main(int argc, const char *argv[])
           <section>
             <p>A packet is just a struct!</p>
             <aside class="notes">
-             So if we know that a packet is just a struct, then it should be easy to follow a protocol spec and put them out on the wire.
-             All we need to do now is make structs in Ruby.
+              So if we know that a packet is just a struct, then it should be easy to follow a protocol spec and put them out on the wire.
+              All we need to do now is make structs in Ruby.
             </aside>
           </section>
 
@@ -219,8 +219,36 @@ int main(int argc, const char *argv[])
             </aside>
           </section>
 
+          <section>
+            From the website:
+            <blockquote>
+              BinData provides a <strong>declarative</strong> way to read and write structured binary data.
+            </blockquote>
+          </section>
+
+          <section>
+            A nice little DSL for making OG structs...
+            <pre>
+            <code data-trim>
+class Rectangle < BinData::Record
+  endian :little
+  uint16 :len
+  string :name, :read_length => :len
+  uint32 :width
+  uint32 :height
+end
+
+io = File.open(...)
+r  = Rectangle.read(io)
+puts "Rectangle #{r.name} is #{r.width} x #{r.height}"
+            </code>
+            </pre>
+          </section>
+
         </section>
         <!--END tech/protocol explanation slides-->
+
+
 
 
 
