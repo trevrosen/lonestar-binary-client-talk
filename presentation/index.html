@@ -351,18 +351,29 @@ puts "Rectangle #{r.name} is #{r.width} x #{r.height}"
           </section>
 
           <section data-transition="none">
+            <!-- One box on the outside, can only talk to one of the three on the inside -->
             <img class="stretch" src="images/pivoting-0.png" alt="" />
+            <aside class="notes">
+              Boxes in the same network can generally talk to each other without much restriction
+            </aside>
           </section>
           <section data-transition="none">
+            <!-- compromised inside -->
             <img class="stretch" src="images/pivoting-1.png" alt="" />
+            <aside class="notes">
+              But if we can pivot through someone on the inside, we can talk to everything it can talk to
+            </aside>
           </section>
           <section data-transition="none">
+            <!-- add corp/pci separation, with a jump box -->
             <img class="stretch" src="images/pivoting-2.png" alt="" />
           </section>
           <section data-transition="none">
+            <!-- compromised jump box -->
             <img class="stretch" src="images/pivoting-3.png" alt="" />
           </section>
           <section data-transition="none">
+            <!-- compromised pci box -->
             <img class="stretch" src="images/pivoting-4.png" alt="" />
           </section>
 
@@ -412,19 +423,64 @@ puts "Rectangle #{r.name} is #{r.width} x #{r.height}"
         </section>
 
         <section>
-          <h4>RubySMB</h4>
-          <img src="images/ruby_smb.png" alt="" />
+
+          <section>
+            <h3>Ruby SMB</h3>
+            <img src="images/ruby_smb.png" alt="" />
+          </section>
+
+          <section>
+            <ul>
+              <li>A new, pure Ruby implementation of SMB</li>
+              <li>Written to be socket-agnostic</li>
+              <li>Covering both SMBv1 and SMBv2/3</li>
+            </ul>
+          </section>
+
+          <section>
+            <h4>Dispatchers</h4>
+            <p>The thing that sends packets</p>
+            <p>Sockets are passed in as a dependency</p>
+            <aside class="notes">
+              This is where concurrency will come into play
+            </aside>
+          </section>
+
+          <section>
+            <h4>Client</h4>
+            <p>The thing that holds the current protocol state</p>
+            <ul>
+              <li>what dialect are we using?</li>
+              <li>was authentication successful?</li>
+            </ul>
+          </section>
+
+          <section>
+            <pre>
+              <code data-trim class="ruby">
+dispatcher = RubySMB::Dispatcher::Socket.connect("192.168.100.140")
+client = RubySMB::SMB2::Client.new(
+  dispatcher: dispatcher,
+  username: "administrator",
+  password: "P@ssword1",
+  domain: "CONTOSSO"
+)
+client.negotiate
+client.authenticate
+              </code>
+            </pre>
+          </section>
         </section>
 
         <section>
+          <h3>In the Future</h3>
+          <p>You'll be able to:</p>
           <ul>
-            <li>A new, pure Ruby implementation of SMB</li>
-            <li>Written to be socket-agnostic</li>
-            <li>Covering both SMBv1 and SMBv2</li>
+            <li>speak SMB v1 through v3, including encryption</li>
+            <li>route through things like <code>Net::SSH</code></li>
+            <ul><li>(or anything else that can give you an IO-like)</li><ul>
           </ul>
         </section>
-
-
 
       </div>
     </div>
