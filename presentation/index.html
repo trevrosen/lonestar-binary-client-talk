@@ -49,6 +49,9 @@ document.getElementsByTagName( 'head' )[0].appendChild( link );
         <section>
           <section>
             <h2>First things First</h2>
+            <aside class="notes">
+              Many levels in single-track con * General talk about approach/tools/knowledge * Then discuss our new client.
+            </aside>
           </section>
 
           <section>
@@ -58,7 +61,7 @@ document.getElementsByTagName( 'head' )[0].appendChild( link );
           <section>
             <p>Wikipedia:</p>
             <blockquote>
-              In telecommunications, a communication protocol is a system of rules that allow two or more entities of a communication system to communicate between them to transmit information via any kind of variation of a physical quantity.
+              In telecommunications, a communication protocol is a system of rules that allow two or more entities of a communication system to communicate between them to transmit information via any kind of <span class="fragment highlight-blue">variation of a physical quantity.</span>
             </blockquote>
           </section>
 
@@ -182,10 +185,34 @@ document.getElementsByTagName( 'head' )[0].appendChild( link );
 
           <section>
             <p>How do we make one in Ruby?</p>
-            <p>We need more control over the bits than Ruby classes give us.</p>
+            <p>We need fine-grained control over the bits</p>
+            <p>We need to make a *binary string*</p>
             <aside class="notes">
               Now we need to make sure that we can place binary information on the wire.
-              We need to be structuring literal bits in memory. We need C structs.
+            </aside>
+          </section>
+
+          <section>
+            <h3>We could use Array#pack/String#unpack</h3>
+            <ul>
+              <li>Lets you create/decompose binary strings</li>
+              <li>Template strings help us get the right encodings and field sizes</li>
+            </ul>
+          </section>
+
+          <section>
+            <p>But it's kind of ugly and hard to DRY</p>
+            <pre>
+              <code data-trim>
+io = File.open(...)
+len = io.read(2).unpack("v")
+name = io.read(len)
+width, height = io.read(8).unpack("VV")
+puts "Rectangle #{name} is #{width} x #{height}"
+              </code>
+            </pre>
+            <aside class="notes">
+              Here we read N bytes from a file and unpack into a string. Sizes and decoding values are hardcoded. We need structure. Repeatability.
             </aside>
           </section>
 
@@ -196,6 +223,10 @@ document.getElementsByTagName( 'head' )[0].appendChild( link );
           <section>
             <h3>The OG Structured Data Type</h3>
             <img src="images/gangsta.gif" class="fragment" alt="" />
+
+            <aside class="notes">
+              In MRI, all Ruby objects are just instances of different kinds of structs
+            </aside>
           </section>
 
           <section>
@@ -275,7 +306,23 @@ int main(int argc, const char *argv[])
           </section>
 
           <section>
-            A nice little DSL for making OG structs...
+            <p>Remember our un-DRY #unpack code?</p>
+            <pre>
+              <code data-trim>
+io = File.open(...)
+len = io.read(2).unpack("v")
+name = io.read(len)
+width, height = io.read(8).unpack("VV")
+puts "Rectangle #{name} is #{width} x #{height}"
+              </code>
+            </pre>
+            <aside class="notes">
+              Semantics need rectangle. This is unwieldy. Let's have a Rubyish way.
+            </aside>
+          </section>
+
+          <section>
+            <p>A nice little DSL for making those OG structs...</p>
             <pre>
             <code data-trim>
 class Rectangle < BinData::Record
