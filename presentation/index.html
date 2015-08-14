@@ -408,18 +408,36 @@ puts "Rectangle #{r.name} is #{r.width} x #{r.height}"
         </section>
 
         <section>
-          <h3>SMB (Server Message Block)</h3>
-          <ul>
-            <li>THE protocol for Window networking</li>
-            <li>File shares, printers, desktops, etc talk to each other this way</li>
-            <li>Open source (reverse-engineered) is Samba</li>
-            <li>Attacking Windows is very important to Metasploit</li>
-          </ul>
 
-          <aside class="notes">
-            Newer versions of Windows don't support older versions of SMB, and those old versions are all the client
-            we have in Metasploit currently. That's why we're writing a new client.
-          </aside>
+          <section>
+            <h3>SMB (Server Message Block)</h3>
+            <ul>
+              <li>THE protocol for Window networking</li>
+              <li>Used for file shares, printers, Active Directory administration</li>
+              <li>Open source (reverse-engineered) is Samba</li>
+              <li>Attacking Windows is very important to Metasploit</li>
+            </ul>
+
+            <aside class="notes">
+              Newer versions of Windows can be configured to drop support for
+              older versions of SMB, and those old versions are all the client
+              we have in Metasploit currently. That's why we're writing a new
+              client.
+            </aside>
+          </section>
+
+          <section>
+            <p>A family</p>
+          </section>
+
+          <section>
+            <p>SMBv1, CIFS</p>
+          </section>
+
+          <section>
+            <p>SMBv2/3</p>
+          </section>
+
         </section>
 
         <section>
