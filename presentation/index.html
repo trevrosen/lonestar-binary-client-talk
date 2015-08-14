@@ -350,9 +350,31 @@ puts "Rectangle #{r.name} is #{r.width} x #{r.height}"
             <p>This is called a "pivot"</p>
           </section>
 
-          <section>
-            <p>Here's a simplification of what a "pivot" looks like</p>
-            <img src="images/pivot-diagram.png" alt="" />
+          <section data-transition="none">
+            <!-- One box on the outside, can only talk to one of the three on the inside -->
+            <img class="stretch" src="images/pivoting-0.png" alt="" />
+            <aside class="notes">
+              Boxes in the same network can generally talk to each other without much restriction
+            </aside>
+          </section>
+          <section data-transition="none">
+            <!-- compromised inside -->
+            <img class="stretch" src="images/pivoting-1.png" alt="" />
+            <aside class="notes">
+              But if we can pivot through someone on the inside, we can talk to everything it can talk to
+            </aside>
+          </section>
+          <section data-transition="none">
+            <!-- add corp/pci separation, with a jump box -->
+            <img class="stretch" src="images/pivoting-2.png" alt="" />
+          </section>
+          <section data-transition="none">
+            <!-- compromised jump box -->
+            <img class="stretch" src="images/pivoting-3.png" alt="" />
+          </section>
+          <section data-transition="none">
+            <!-- compromised pci box -->
+            <img class="stretch" src="images/pivoting-4.png" alt="" />
           </section>
 
           <section>
@@ -386,34 +408,114 @@ puts "Rectangle #{r.name} is #{r.width} x #{r.height}"
         </section>
 
         <section>
-          <h3>SMB (Server Message Block)</h3>
-          <ul>
-            <li>THE protocol for Window networking</li>
-            <li>File shares, printers, desktops, etc talk to each other this way</li>
-            <li>Open source (reverse-engineered) is SAMBA</li>
-            <li>Attacking Windows is very important to Metasploit</li>
-          </ul>
 
-          <aside class="notes">
-            Newer versions of Windows don't support older versions of SMB, and those old versions are all the client
-            we have in Metasploit currently. That's why we're writing a new client.
-          </aside>
+          <section>
+            <h3>SMB (Server Message Block)</h3>
+            <ul>
+              <li>THE protocol for Window networking</li>
+              <li>Used for file shares, printers, Active Directory administration</li>
+              <li>Open source (reverse-engineered) is Samba</li>
+              <li>Attacking Windows is very important to Metasploit</li>
+            </ul>
+
+            <aside class="notes">
+              Newer versions of Windows can be configured to drop support for
+              older versions of SMB, and those old versions are all the client
+              we have in Metasploit currently. That's why we're writing a new
+              client.
+            </aside>
+          </section>
+
+          <section>
+            <p>A family</p>
+          </section>
+
+          <section>
+            <p>SMBv1, CIFS</p>
+            <aside class="notes">
+              Older, designed by blind committee with lots of bolted-on ideas
+              sitting on top of deprecated cruft.
+            </aside>
+          </section>
+
+          <section>
+            <p>SMBv2/3</p>
+            <aside class="notes">
+              Designed with simplicity in mind. SMBv1 had hundreds of packet
+              types. SMBv2 has 20.
+            </aside>
+          </section>
+
         </section>
 
         <section>
-          <h4>RubySMB</h4>
-          <img src="images/ruby_smb.png" alt="" />
+
+          <section>
+            <h3>Ruby SMB</h3>
+            <img src="images/ruby_smb.png" alt="" />
+          </section>
+
+          <section>
+            <ul>
+              <li>A new, pure Ruby implementation of SMB</li>
+              <li>Written to be socket-agnostic</li>
+              <li>Covering both SMBv1 and SMBv2/3</li>
+            </ul>
+          </section>
+
+          <section>
+            <h4>Dispatchers</h4>
+            <p>The thing that sends packets</p>
+            <p>Sockets are passed in as a dependency</p>
+            <aside class="notes">
+              This is where concurrency will come into play
+            </aside>
+          </section>
+
+          <section>
+            <h4>Client</h4>
+            <p>The thing that holds the current protocol state</p>
+            <ul>
+              <li>what dialect are we using?</li>
+              <li>was authentication successful?</li>
+              <li>session key for cryptographically signing packets</li>
+            </ul>
+          </section>
+
+          <section>
+            <pre>
+              <code data-trim class="ruby">
+dispatcher = RubySMB::Dispatcher::Socket.connect("192.168.100.140")
+client = RubySMB::SMB2::Client.new(
+  dispatcher: dispatcher,
+  username: "administrator",
+  password: "P@ssword1",
+  domain: "CONTOSSO"
+)
+client.negotiate
+client.authenticate
+              </code>
+            </pre>
+          </section>
         </section>
 
         <section>
+          <h3>In the Future</h3>
+          <p>You'll be able to:</p>
           <ul>
-            <li>A new, pure Ruby implementation of SMB</li>
-            <li>Written to be socket-agnostic</li>
-            <li>Covering both SMBv1 and SMBv2</li>
+            <li>speak SMB v1 through v3, including encryption</li>
+            <li>route through things like <code>Net::SSH</code></li>
+            <ul><li>(or anything else that can give you an IO-like)</li><ul>
           </ul>
         </section>
 
-
+        <section>
+          <h3>Contact</h3>
+          <ul>
+            <li>@trevosen</li>
+            <li>@egyp7, egypt@metasploit.com</li>
+          </ul>
+        </section>
 
       </div>
     </div>
