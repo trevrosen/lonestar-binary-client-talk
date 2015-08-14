@@ -86,7 +86,7 @@ document.getElementsByTagName( 'head' )[0].appendChild( link );
           </section>
 
           <section>
-            <p>We've probably all looked at some HTTP traffic:</p>
+            <p>We've probably all looked at some HTTP traffic in a web inspector:</p>
             <img src="images/lonestar-http.png" alt="" />
           </section>
 
@@ -138,6 +138,19 @@ document.getElementsByTagName( 'head' )[0].appendChild( link );
               So back to our traffic here. This is SMB, which we'll talk more about in a minute. Wireshark understands what the chunks of binary data mean
               and is able to create this interface for you so that you can make sense of the data in relation to a protocol spec.
             </aside>
+          </section>
+
+          <section>
+            <p>Wireshark can help you grok networking in general</p>
+            <img src="images/osi_model.jpg" alt="" />
+            <aside class="notes">
+              You can see that every layer of the network stack is represented, no matter what kind of network you're looking at.
+              Good to know, because on the wire...[flip]
+            </aside>
+          </section>
+
+          <section>
+            <img src="images/lester-smaller.jpg" alt="" />
           </section>
 
           <section>
@@ -552,14 +565,14 @@ client.authenticate
           <ul>
             <li>speak SMB v1 through v3, including encryption</li>
             <li>route through things like <code>Net::SSH</code></li>
-            <ul><li>(or anything else that can give you an IO-like)</li><ul>
+            <li>(or anything else that can give you an IO-like)</li>
           </ul>
         </section>
 
         <section>
           <h3>Contact</h3>
           <ul>
-            <li>@trevosen</li>
+            <li>@trevosen, trevor_rosen@rapid7.com</li>
             <li>@egyp7, egypt@metasploit.com</li>
           </ul>
         </section>
