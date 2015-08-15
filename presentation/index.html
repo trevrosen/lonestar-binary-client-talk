@@ -117,7 +117,7 @@ document.getElementsByTagName( 'head' )[0].appendChild( link );
           </section>
 
           <section>
-            <img src="images/wireshark/smb-connect.png" alt="" />
+            <img src="images/wireshark/smb2-create.png" alt="" />
             <aside class="notes">
               Wireshark is THE way to analyze packet traffic. Supports hundreds of protocols.
               Here you can see the binary of the packet on the bottom and what it means on the top.
@@ -125,7 +125,7 @@ document.getElementsByTagName( 'head' )[0].appendChild( link );
           </section>
 
           <section>
-            <img src="images/wireshark/lonestar-http.png" alt="" />
+            <img src="images/wireshark/http-lonestar.png" alt="" />
             <aside class="notes">
               You can of course also anaylze text-based protocols with it too.
               Here's the Lonestar page we looked at earlier w/ Chrome.
@@ -133,7 +133,7 @@ document.getElementsByTagName( 'head' )[0].appendChild( link );
           </section>
 
           <section>
-            <img src="images/wireshark/smb-connect.png" alt="" />
+            <img src="images/wireshark/smb2-create.png" alt="" />
             <aside class="notes">
               So back to our traffic here. This is SMB, which we'll talk more about in a minute. Wireshark understands what the chunks of binary data mean
               and is able to create this interface for you so that you can make sense of the data in relation to a protocol spec.
@@ -373,57 +373,61 @@ puts "Rectangle #{r.name} is #{r.width} x #{r.height}"
         <!--END tech/protocol explanation slides-->
 
         <section>
-          <h2>RubySMB</h2>
-          <p>A new binary client for Microsoft's SMB protocol</p>
+          <section>
+            <h2>RubySMB</h2>
+            <p>A new binary client for Microsoft's SMB protocol</p>
+          </section>
+
+          <section>
+            <img src="images/ruby_smb.png" alt="" />
+          </section>
+
+          <section>
+            <ul>
+              <li>A new, pure Ruby implementation of SMB</li>
+              <li>Written to be socket-agnostic</li>
+              <li>Covering both SMBv1 and SMBv2/3</li>
+            </ul>
+          </section>
         </section>
 
         <section>
-          <img src="images/ruby_smb.png" alt="" />
-        </section>
+          <section>
+            <h3>SMB (Server Message Block)</h3>
+            <ul>
+              <li>THE protocol for Window networking</li>
+              <li>Used for file shares, printers, Active Directory administration</li>
+              <li>Open source (reverse-engineered) is Samba</li>
+            </ul>
 
-        <section>
-          <ul>
-            <li>A new, pure Ruby implementation of SMB</li>
-            <li>Written to be socket-agnostic</li>
-            <li>Covering both SMBv1 and SMBv2/3</li>
-          </ul>
-        </section>
+            <aside class="notes">
+              Newer versions of Windows can be configured to drop support for
+              older versions of SMB, and those old versions are all the client
+              we have in Metasploit currently. That's why we're writing a new
+              client.
+            </aside>
+          </section>
 
-        <section>
-          <h3>SMB (Server Message Block)</h3>
-          <ul>
-            <li>THE protocol for Window networking</li>
-            <li>Used for file shares, printers, Active Directory administration</li>
-            <li>Open source (reverse-engineered) is Samba</li>
-            <li>Attacking Windows is very important to Metasploit</li>
-          </ul>
+          <section>
+            <p>A family of protocols</p>
+          </section>
 
-          <aside class="notes">
-            Newer versions of Windows can be configured to drop support for
-            older versions of SMB, and those old versions are all the client
-            we have in Metasploit currently. That's why we're writing a new
-            client.
-          </aside>
-        </section>
+          <section>
+            <p>SMBv1, CIFS</p>
+            <aside class="notes">
+              Older, designed by blind committee with lots of bolted-on ideas
+              sitting on top of deprecated cruft.
+            </aside>
+          </section>
 
-        <section>
-          <p>A family of protocols</p>
-        </section>
+          <section>
+            <p>SMBv2/3</p>
+            <aside class="notes">
+              Designed with simplicity in mind. SMBv1 had hundreds of packet
+              types. SMBv2 has 20.
+            </aside>
+          </section>
 
-        <section>
-          <p>SMBv1, CIFS</p>
-          <aside class="notes">
-            Older, designed by blind committee with lots of bolted-on ideas
-            sitting on top of deprecated cruft.
-          </aside>
-        </section>
-
-        <section>
-          <p>SMBv2/3</p>
-          <aside class="notes">
-            Designed with simplicity in mind. SMBv1 had hundreds of packet
-            types. SMBv2 has 20.
-          </aside>
         </section>
 
         <!--BEGIN Metasploit digression on pivots-->
