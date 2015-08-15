@@ -339,9 +339,9 @@ puts "Rectangle #{name} is #{width} x #{height}"
             <pre>
             <code data-trim>
 class Rectangle < BinData::Record
-                   endian :little
-                   uint16 :len
-                   string :name, :read_length => :len
+  endian :little
+  uint16 :len
+  string :name, :read_length => :len
   uint32 :width
   uint32 :height
 end
@@ -430,6 +430,9 @@ puts "Rectangle #{r.name} is #{r.width} x #{r.height}"
         <section>
           <section>
             <p>Why did we make this instead of using something that's already out there?</p>
+            <aside class="notes">
+              Several gems already exist that add thin bindings over libsmb, or shell out to smbclient.
+            </aside>
           </section>
 
           <section>
@@ -447,11 +450,11 @@ puts "Rectangle #{r.name} is #{r.width} x #{r.height}"
           </section>
 
           <section>
-            <h3>Pentesting: How far can you get?</h3>
+            <h3>Pentesting</h3>
             <ul>
-              <li>Compromise a machine and see where you can go from there</li>
-              <li>Frequently, networked machines will have access to several network segments</li>
-              <li>So compromising a machine will make more machines visible</li>
+              <li>Compromise a machine, see where you can go from there</li>
+              <li>Networked machines often see several network segments</li>
+              <li>Compromising a machine makes more machines visible</li>
               <li>Then you can compromise machine B because you can see it from machine A</li>
             </ul>
           </section>
@@ -488,46 +491,49 @@ puts "Rectangle #{r.name} is #{r.width} x #{r.height}"
           </section>
 
           <section>
-            <p>Ok, but why do we care?</p>
+            <p>Ok, but why do you care?</p>
             <aside class="notes">
-              This is a talk about clients, right? Not hacker stuff!
-              Well we need to know what hosts are routeable in order to do a pivot
+              This is a talk about clients, right? Not hacker stuff!  Well we
+              need to know what hosts are routeable in order to do a pivot
             </aside>
           </section>
 
-          <section>
-            <h3>Metasploit network clients must handle socket creation themselves</h3>
-            <ul>
-              <li>This is why we make lots of protocol clients</li>
-              <li>We have to instantiate the socket in the context of the routes made available by pivots, at runtime</li>
-            </ul>
+        </section>
+        <!--END Metasploit digression on pivots-->
 
-            <aside class="notes">
-              Most protocols handle socket creation for you.
-            </aside>
-          </section>
+        <section>
+          <h3>Metasploit network clients must create their own sockets</h3>
+          <ul>
+            <li>This is why we make lots of protocol clients</li>
+            <li>We have to instantiate the socket in the context of the routes made available by pivots, at runtime</li>
+          </ul>
 
-          <section>
-            <h4>Dispatchers</h4>
-            <p>The thing that sends packets</p>
-            <p>Sockets are passed in as a dependency</p>
-            <aside class="notes">
-              This is where concurrency will come into play
-            </aside>
-          </section>
+          <aside class="notes">
+            Most ruby protocols handle socket creation for you with something like TCPSocket. We have more restrictions.
+          </aside>
+        </section>
 
-          <section>
-            <h4>Client</h4>
-            <p>The thing that holds the current protocol state</p>
-            <ul>
-              <li>what dialect are we using?</li>
-              <li>was authentication successful?</li>
-              <li>session key for cryptographically signing packets</li>
-            </ul>
-          </section>
+        <section>
+          <h4>Dispatchers</h4>
+          <p>The thing that sends packets</p>
+          <p>Sockets are dependency-injected</p>
+          <aside class="notes">
+            This is where concurrency will come into play
+          </aside>
+        </section>
 
-          <section>
-            <pre>
+        <section>
+          <h4>Client</h4>
+          <p>The thing that holds the current protocol state</p>
+          <ul>
+            <li>what dialect are we using?</li>
+            <li>was authentication successful?</li>
+            <li>session key for cryptographically signing packets</li>
+          </ul>
+        </section>
+
+        <section>
+          <pre>
               <code data-trim class="ruby">
 dispatcher = RubySMB::Dispatcher::Socket.connect("192.168.100.140")
 client = RubySMB::SMB2::Client.new(
@@ -539,12 +545,8 @@ client = RubySMB::SMB2::Client.new(
 client.negotiate
 client.authenticate
               </code>
-            </pre>
-          </section>
-
-
+          </pre>
         </section>
-        <!--END Metasploit digression on pivots-->
 
 
         <section>
