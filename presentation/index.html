@@ -119,16 +119,16 @@ document.getElementsByTagName( 'head' )[0].appendChild( link );
           <section>
             <img src="images/wireshark/smb-connect.png" alt="" />
             <aside class="notes">
-             Wireshark is THE way to analyze packet traffic. Supports hundreds of protocols.
-             Here you can see the binary of the packet on the bottom and what it means on the top.
+              Wireshark is THE way to analyze packet traffic. Supports hundreds of protocols.
+              Here you can see the binary of the packet on the bottom and what it means on the top.
             </aside>
           </section>
 
           <section>
             <img src="images/wireshark/lonestar-http.png" alt="" />
             <aside class="notes">
-             You can of course also anaylze text-based protocols with it too.
-             Here's the Lonestar page we looked at earlier w/ Chrome.
+              You can of course also anaylze text-based protocols with it too.
+              Here's the Lonestar page we looked at earlier w/ Chrome.
             </aside>
           </section>
 
@@ -339,9 +339,9 @@ puts "Rectangle #{name} is #{width} x #{height}"
             <pre>
             <code data-trim>
 class Rectangle < BinData::Record
-  endian :little
-  uint16 :len
-  string :name, :read_length => :len
+                   endian :little
+                   uint16 :len
+                   string :name, :read_length => :len
   uint32 :width
   uint32 :height
 end
@@ -375,6 +375,18 @@ puts "Rectangle #{r.name} is #{r.width} x #{r.height}"
         <section>
           <h2>RubySMB</h2>
           <p>A new binary client for Microsoft's SMB protocol</p>
+        </section>
+
+        <section>
+          <img src="images/ruby_smb.png" alt="" />
+        </section>
+
+        <section>
+          <ul>
+            <li>A new, pure Ruby implementation of SMB</li>
+            <li>Written to be socket-agnostic</li>
+            <li>Covering both SMBv1 and SMBv2/3</li>
+          </ul>
         </section>
 
         <section>
@@ -496,22 +508,6 @@ puts "Rectangle #{r.name} is #{r.width} x #{r.height}"
           </section>
 
           <section>
-            <h3>Ruby SMB</h3>
-            <img src="images/ruby_smb.png" alt="" />
-          </section>
-
-          <section>
-            <ul>
-              <li>A new, pure Ruby implementation of SMB</li>
-              <li>Written to be socket-agnostic</li>
-              <li>Covering both SMBv1 and SMBv2/3</li>
-            </ul>
-          </section>
-        </section>
-        <!--END Metasploit digression on pivots-->
-
-        <section>
-          <section>
             <h4>Dispatchers</h4>
             <p>The thing that sends packets</p>
             <p>Sockets are passed in as a dependency</p>
@@ -545,7 +541,11 @@ client.authenticate
               </code>
             </pre>
           </section>
+
+
         </section>
+        <!--END Metasploit digression on pivots-->
+
 
         <section>
           <h3>In the Future</h3>
