@@ -377,6 +377,43 @@ puts "Rectangle #{r.name} is #{r.width} x #{r.height}"
           <p>A new binary client for Microsoft's SMB protocol</p>
         </section>
 
+        <section>
+          <h3>SMB (Server Message Block)</h3>
+          <ul>
+            <li>THE protocol for Window networking</li>
+            <li>Used for file shares, printers, Active Directory administration</li>
+            <li>Open source (reverse-engineered) is Samba</li>
+            <li>Attacking Windows is very important to Metasploit</li>
+          </ul>
+
+          <aside class="notes">
+            Newer versions of Windows can be configured to drop support for
+            older versions of SMB, and those old versions are all the client
+            we have in Metasploit currently. That's why we're writing a new
+            client.
+          </aside>
+        </section>
+
+        <section>
+          <p>A family of protocols</p>
+        </section>
+
+        <section>
+          <p>SMBv1, CIFS</p>
+          <aside class="notes">
+            Older, designed by blind committee with lots of bolted-on ideas
+            sitting on top of deprecated cruft.
+          </aside>
+        </section>
+
+        <section>
+          <p>SMBv2/3</p>
+          <aside class="notes">
+            Designed with simplicity in mind. SMBv1 had hundreds of packet
+            types. SMBv2 has 20.
+          </aside>
+        </section>
+
         <!--BEGIN Metasploit digression on pivots-->
         <section>
           <section>
@@ -459,59 +496,6 @@ puts "Rectangle #{r.name} is #{r.width} x #{r.height}"
           </section>
 
           <section>
-            [[ END OF DIGRESSION ]]
-          </section>
-        </section>
-        <!--END Metasploit digression on pivots-->
-
-        <section>
-          OK back to SMB
-        </section>
-
-        <section>
-
-          <section>
-            <h3>SMB (Server Message Block)</h3>
-            <ul>
-              <li>THE protocol for Window networking</li>
-              <li>Used for file shares, printers, Active Directory administration</li>
-              <li>Open source (reverse-engineered) is Samba</li>
-              <li>Attacking Windows is very important to Metasploit</li>
-            </ul>
-
-            <aside class="notes">
-              Newer versions of Windows can be configured to drop support for
-              older versions of SMB, and those old versions are all the client
-              we have in Metasploit currently. That's why we're writing a new
-              client.
-            </aside>
-          </section>
-
-          <section>
-            <p>A family</p>
-          </section>
-
-          <section>
-            <p>SMBv1, CIFS</p>
-            <aside class="notes">
-              Older, designed by blind committee with lots of bolted-on ideas
-              sitting on top of deprecated cruft.
-            </aside>
-          </section>
-
-          <section>
-            <p>SMBv2/3</p>
-            <aside class="notes">
-              Designed with simplicity in mind. SMBv1 had hundreds of packet
-              types. SMBv2 has 20.
-            </aside>
-          </section>
-
-        </section>
-
-        <section>
-
-          <section>
             <h3>Ruby SMB</h3>
             <img src="images/ruby_smb.png" alt="" />
           </section>
@@ -523,7 +507,19 @@ puts "Rectangle #{r.name} is #{r.width} x #{r.height}"
               <li>Covering both SMBv1 and SMBv2/3</li>
             </ul>
           </section>
+        </section>
+        <!--END Metasploit digression on pivots-->
 
+
+        <section>
+
+
+
+
+
+        </section>
+
+        <section>
           <section>
             <h4>Dispatchers</h4>
             <p>The thing that sends packets</p>
